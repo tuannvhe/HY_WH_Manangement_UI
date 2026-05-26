@@ -1,0 +1,2445 @@
+body {
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  /* ↑ system-ui và -apple-system là font có sẵn, không cần tải */
+}
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+:root {
+  --primary-green: #10b981;
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+  --glass-white: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --shadow-3d: 0 20px 40px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.glass-page-container {
+  padding: 40px;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e0f2fe 50%, #f0f9ff 100%);
+  /* removed dynamic radial gradients for performance */
+  background-image: none;
+  height: auto;
+  font-family: 'Inter', sans-serif;
+  background-attachment: scroll;
+  position: relative;
+  overflow: visible;
+}
+
+/* Remove 3D effects globally (neutralize perspective & preserve-3d) */
+.bento-header-wrapper,
+.table-container,
+.table-perspective-container,
+.glass-table-card-3d,
+.glass-card-3d,
+.modal-inner-3d,
+.bento-card,
+.table-header,
+.table-row,
+.table-title {
+  perspective: none !important;
+  transform-style: flat !important;
+}
+
+
+
+/* Performance: reduce heavy effects by default */
+/* - Use scroll instead of fixed background to avoid repaint storms
+   - Reduce backdrop-filter blurs
+   - Slow down or lengthen repeating animations */
+
+
+/* Bento Header with 3D effects */
+.bento-header-wrapper {
+  display: grid;
+  grid-template-columns: 3.5fr 1fr 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 35px;
+  perspective: none;
+}
+
+.bento-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+  border-radius: 8px;
+  padding: 24px;
+  border: 2px solid var(--glass-border);
+
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: visible;
+  transform-style: flat;
+}
+
+
+
+.welcome-banner {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(59, 130, 246, 0.96) 100%);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 40px;
+  border-radius: 32px;
+}
+
+/* MODERN TABLE STYLES - VISIBLE EFFECTS */
+.table-container {
+  background: linear-gradient(145deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(248, 250, 252, 0.96) 30%,
+      rgba(241, 245, 249, 0.94) 60%,
+      rgba(226, 232, 240, 0.92) 100%);
+  border-radius: 16px;
+  padding: 16px;
+
+  /* simplify complex border to a subtle solid color */
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: flat;
+  perspective: none;
+}
+
+
+
+/* TABLE TITLE 3D - IMPROVED COLORS */
+.table-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  display: inline-block;
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 4px 8px rgba(16, 185, 129, 0.15),
+    0 8px 16px rgba(16, 185, 129, 0.08);
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: titleFloat 12s ease-in-out infinite;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  padding: 12px 24px;
+  border-radius: 16px;
+  border: 2px solid rgba(16, 185, 129, 0.2);
+}
+
+
+/* Factory Info Enhanced */
+.factory-info-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 4px 8px;
+  background: linear-gradient(135deg,
+      rgba(16, 185, 129, 0.08) 0%,
+      rgba(59, 130, 246, 0.08) 50%,
+      rgba(139, 92, 246, 0.08) 100%);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+
+
+
+.factory-code {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  text-shadow: 0 0 6px rgba(16, 185, 129, 0.3);
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.factory-code::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, #10b981, #3b82f6, #8b5cf6);
+  border-radius: 1px;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+
+
+.factory-separator {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+  font-size: 10px;
+  margin: 0 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+
+.factory-separator::after {
+  content: '•';
+  color: #8b5cf6;
+  font-size: 8px;
+  animation: separatorPulse 6s ease-in-out infinite 0.5s;
+}
+
+@keyframes separatorPulse {
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.factory-location {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
+  letter-spacing: 0.2px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+
+@keyframes locationBounce {
+
+  0%,
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+
+  50% {
+    transform: translateY(-60%) scale(1.1);
+  }
+}
+
+
+
+
+/* Additional shadow layers */
+.table-title span {
+  position: relative;
+  z-index: 3;
+}
+
+/* MODERN TABLE */
+.modern-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 16px;
+  overflow: hidden;
+
+}
+
+/* TABLE ROWS - VISIBLE EFFECTS */
+.table-row {
+  background: linear-gradient(145deg,
+      rgba(248, 250, 252, 0.95) 0%,
+      rgba(241, 245, 249, 0.92) 50%,
+      rgba(226, 232, 240, 0.88) 100%);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  border-bottom: 1px solid rgba(203, 213, 225, 0.8);
+  animation: rowSlideIn 0.6s ease-out backwards;
+  transform-style: preserve-3d;
+
+}
+
+
+
+/* Floating particles on rows */
+.table-row span {
+  position: relative;
+  z-index: 3;
+}
+
+
+/* RESPONSIVE TABLE */
+@media (max-width: 768px) {
+  .table-container {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .table-title {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .table-header,
+  .table-cell {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+}
+
+.banner-badge {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 10px;
+  margin-bottom: 8px;
+  width: fit-content;
+}
+
+.banner-title {
+  color: white !important;
+  margin: 0 !important;
+  font-weight: 800 !important;
+  font-size: 28px !important;
+}
+
+.banner-subtitle {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+  line-height: 1.6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
+}
+
+.stat-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stat-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 6px;
+  width: 100%;
+  opacity: 0.8;
+}
+
+/* Table 3D Perspective */
+.table-perspective-container {
+  perspective: none;
+}
+
+.glass-table-card-3d {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  padding: 12px !important;
+  transform: rotateX(1.2deg);
+  overflow-x: hidden;
+}
+
+.glass-card-3d {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  padding: 24px !important;
+}
+
+.table-header-3d {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+}
+
+.search-engine-3d {
+  position: relative;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 26px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 520px;
+  border: 1px solid rgba(226, 232, 240, 0.95);
+}
+
+.search-engine-3d .ant-input-affix-wrapper,
+.search-engine-3d input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  border: none !important;
+  background: transparent !important;
+  box-sizing: border-box;
+}
+
+.search-engine-3d .ant-input,
+.search-engine-3d input {
+  width: 100%;
+  height: 100%;
+  min-height: 42px;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  color: #0f172a;
+  font-weight: 600;
+  box-sizing: border-box;
+}
+
+.search-engine-3d .ant-input::placeholder,
+.search-engine-3d input::placeholder {
+  color: #94a3b8;
+}
+
+.search-engine-3d .ant-input:focus,
+.search-engine-3d .ant-input-focused,
+.search-engine-3d .ant-input-affix-wrapper-focused,
+.search-engine-3d input:focus {
+  outline: none !important;
+}
+
+.search-engine-3d .ant-input-affix-wrapper .ant-input-prefix {
+  margin-right: 8px;
+}
+
+.search-engine-3d .ant-input-affix-wrapper:hover,
+.search-engine-3d .ant-input-affix-wrapper-focused {
+  background: transparent !important;
+}
+
+.sync-status {
+  font-size: 11px;
+  font-weight: 800;
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 1px;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;  animation: pulse 3s infinite;
+}
+
+/* Modal 3D Supreme - Enhanced Animations */
+.modal-3d-supreme .ant-modal-mask {
+  background: rgba(0, 0, 0, 0.6) !important;
+  animation: backdropFadeIn 0.4s ease-out;
+}
+
+/* Backdrop entrance animation */
+@keyframes backdropFadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Modal overlay effects */
+.modal-3d-supreme .ant-modal-wrap {
+  animation: modalWrapEntranceNo3D 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalWrapEntrance {
+  0% {
+    transform: scale(0.8) translateY(50px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Modal close animation */
+.modal-3d-supreme.ant-modal-wrap-leave-active {
+  animation: modalWrapExitNo3D 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes modalWrapExit {
+  0% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.9) translateY(-30px);
+    opacity: 0;
+  }
+}
+
+.modal-inner-3d {
+  position: relative;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 45px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  overflow: visible;
+  animation: modalEntranceNo3D 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+}
+
+/* Modal entrance animation */
+@keyframes modalEntrance {
+  0% {
+    transform: scale(0.3) rotateX(90deg) rotateY(45deg);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(0.7) rotateX(45deg) rotateY(22deg);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scale(1) rotateX(0deg) rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+
+
+/* Modal close animation */
+.modal-3d-supreme.ant-modal-wrap-leave-active .modal-inner-3d {
+  animation: modalExitNo3D 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* Non-3D modal animations */
+@keyframes modalEntranceNo3D {
+  0% {
+    transform: scale(0.3) translateY(50px);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(0.7) translateY(20px);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes modalExitNo3D {
+  0% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.3) translateY(-30px);
+    opacity: 0;
+  }
+}
+
+@keyframes modalWrapEntranceNo3D {
+  0% {
+    transform: scale(0.8) translateY(50px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes modalWrapExitNo3D {
+  0% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.9) translateY(-30px);
+    opacity: 0;
+  }
+}
+
+@keyframes modalExit {
+  0% {
+    transform: scale(1) rotateX(0deg) rotateY(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.3) rotateX(-90deg) rotateY(-45deg);
+    opacity: 0;
+  }
+}
+
+/* Remove modal borders and heavy modal shadows */
+.modal-inner-3d,
+.modal-3d-supreme .ant-modal,
+.modal-3d-supreme .ant-modal-wrap,
+.modal-3d-supreme .ant-modal-mask,
+.modal-3d-supreme .ant-modal-content {
+  border: none !important;
+}
+
+/* Also reduce any remaining modal padding/outline visual noise */
+.modal-3d-supreme .ant-modal-content {
+  background-clip: padding-box;
+}
+
+.modal-top-decor {
+  height: 40px;
+  width: 100%;
+  background: linear-gradient(90deg, #10b981, #3b82f6);
+  border-radius: 45px 45px 0 0;
+}
+
+.modal-floating-icon-container {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.icon-orbit {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-icon {
+  width: 80px;
+  height: 80px;
+  background: white;
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  color: #10b981;
+  z-index: 2;
+}
+
+
+.modal-body-3d {
+  padding: 80px 45px 40px;
+  /* Tăng từ 60px lên 80px hoặc hơn */
+}
+
+.modal-title-group {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.modal-title-group h2 {
+  margin: 0 !important;
+  font-weight: 900 !important;
+}
+
+.modal-title-group span {
+  font-size: 10px;
+  font-weight: 800;
+  color: #94a3b8;
+  letter-spacing: 2px;
+}
+
+/* Element Styling */
+.input-3d {
+  border-radius: 16px !important;
+  border: 1px solid #e2e8f0 !important;
+  padding: 12px 18px !important;
+  font-weight: 600;
+}
+
+.select-3d .ant-select-selector {
+  border-radius: 16px !important;
+  height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  font-weight: 600 !important;
+}
+
+.btn-submit-3d {
+  height: 55px;
+  border-radius: 18px;
+  font-weight: 800;
+  color: white !important;
+  background: linear-gradient(135deg, #064e3b 0%, #10b981 100%) !important;
+  border: none !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-submit-3d:hover {
+  transform: translateY(-2px);
+}
+
+.btn-submit-3d:active {
+  transform: translateY(1px);
+}
+
+.btn-cancel-3d {
+  height: 55px;
+  border-radius: 18px;
+  font-weight: 800;
+  border: 1px solid #e2e8f0;
+
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-cancel-3d:hover {
+
+  transform: translateY(-2px);
+}
+
+.btn-cancel-3d:active {
+  transform: translateY(1px);
+}
+
+.btn-3d {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+
+.btn-3d:hover {
+  transform: translateY(-3px) rotate(5deg);
+}
+
+.auditlog-card {
+  position: relative;
+  z-index: 0;
+  overflow-x: hidden;
+  min-height: 640px;
+  background: rgba(255, 255, 255, 0.88) !important;
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  overflow: hidden;
+}
+
+
+.glass-table-card-3d .ant-table-thead>tr>th,
+.auditlog-table .ant-table-thead>tr>th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.92);
+  background-image: linear-gradient(135deg,
+      rgba(34, 197, 94, 0.15),
+      /* Green 500 */
+      rgba(20, 184, 166, 0.1),
+      /* Teal 500 */
+      rgba(134, 239, 172, 0.08)
+      /* Green 300 */
+    );
+  color: #0f172a;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.95);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+
+}
+
+/* QR Detail View */
+.qr-detail-card {
+  position: relative;
+  border-radius: 34px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.96));
+  overflow: hidden;
+}
+
+.qr-detail-card::before {
+  content: '';
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  top: -80px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.18), transparent 60%);
+  pointer-events: none;
+}
+
+.qr-detail-card::after {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  bottom: -70px;
+  left: -70px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.18), transparent 60%);
+  pointer-events: none;
+}
+
+.qr-detail-card .ant-card-body {
+  padding: 32px !important;
+}
+
+.qr-detail-error {
+  margin-top: 24px;
+  padding: 22px;
+  background: rgba(254, 226, 226, 0.9);
+  border-radius: 24px;
+  border: 1px solid rgba(248, 113, 113, 0.22);
+}
+
+.qr-detail-error-subtitle {
+  margin-top: 10px;
+}
+
+.qr-detail-empty {
+  margin-top: 24px;
+  padding: 22px;
+  background: #f8fafc;
+  border-radius: 24px;
+  border: 1px dashed rgba(148, 163, 184, 0.45);
+}
+
+.qr-detail-empty-text {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.qr-detail-grid {
+  margin-top: 24px;
+  display: grid;
+  gap: 24px;
+}
+
+.qr-detail-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.qr-detail-badge {
+  font-size: 13px;
+  border-radius: 14px;
+  padding: 8px 16px;
+  font-weight: 700;
+}
+
+.qr-detail-properties {
+  display: grid;
+  gap: 12px;
+  padding: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), #f8fafc);
+  border-radius: 24px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+.qr-detail-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 20px 22px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(16, 185, 129, 0.12));
+}
+
+.qr-detail-title {
+  margin-bottom: 6px !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+}
+
+.qr-detail-chip {
+  background: #eef2ff;
+  border-radius: 16px;
+  color: #1e293b;
+}
+
+.qr-detail-chip-status {
+  border-radius: 16px;
+  font-weight: 700;
+}
+
+.qr-detail-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.qr-detail-row:last-child {
+  border-bottom: none;
+}
+
+.qr-detail-key {
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.qr-detail-value {
+  color: #475569;
+  text-align: right;
+  word-break: break-word;
+}
+
+.qr-detail-note-row {
+  grid-template-columns: 1fr 1.4fr;
+}
+
+.qr-detail-actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 900px) {
+  .qr-detail-row {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .qr-detail-value {
+    text-align: left;
+  }
+}
+
+@keyframes qr-detail-floating {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.qr-detail-card {
+  animation: qr-detail-floating 8s ease-in-out infinite;
+}
+
+.glass-table-card-3d .ant-table-expanded-row>td,
+.auditlog-table .ant-table-expanded-row>td {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.glass-table-card-3d .ant-table-container,
+.auditlog-table .ant-table-container {
+  background: transparent;
+  will-change: transform;
+}
+
+.auditlog-value-cell {
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #334155;
+}
+
+.auditlog-expanded-row {
+  display: grid;
+  gap: 22px;
+  padding: 18px;
+  background: rgba(248, 250, 252, 0.95);
+  border-radius: 24px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+.auditlog-summary-block,
+.auditlog-changes-block {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 22px;
+  padding: 18px;
+}
+
+.auditlog-section-title {
+  margin-bottom: 12px !important;
+  font-weight: 700 !important;
+}
+
+.type-pill-3d {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.type-pill-3d .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.asset-info-cell-3d {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.icon-box-3d {
+  width: 42px;
+  height: 42px;
+  background: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #10b981;
+  border: 1px solid #f1f5f9;
+}
+
+.name-3d {
+  font-size: 15px;
+  color: #1e293b;
+}
+
+.sub-path {
+  font-size: 10px;
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+.depreciation-tag-3d {
+  background: #051df561;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.depreciation-tag-3d .value {
+  font-weight: 800;
+}
+
+.depreciation-tag-3d .unit {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg) translateX(55px) rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg) translateX(55px) rotate(-360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.4);
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.btn-submit-3d:active {
+  transform: translateY(2px);
+}
+
+/* Container tổng chứa toàn bộ thông báo */
+.ant-message {
+  left: auto !important;
+  right: 8px !important;
+  /* Sát lề phải hơn */
+  top: 20px !important;
+  /* Sát lên trên hơn */
+  width: fit-content !important;
+  margin: 0 !important;
+  z-index: 1100;
+}
+
+/* Tùy chỉnh nội dung message */
+.ant-message-notice-content {
+  padding: 16px 28px !important;
+  /* Làm to hơn */
+  border-radius: 18px !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+
+  /* Hiệu ứng trượt từ phải sang trái */
+  animation: messageSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+@keyframes messageSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* SUCCESS - Emerald */
+.ant-message-success .ant-message-notice-content {
+  background: rgba(236, 253, 245, 0.95) !important;
+  border-right: 6px solid #10b981 !important;
+  /* Thanh dọc bên phải */
+  color: #065f46 !important;
+}
+
+.ant-message-success .anticon {
+  font-size: 22px !important;
+}
+
+/* ERROR - Rose */
+.ant-message-error .ant-message-notice-content {
+  background: rgba(255, 241, 242, 0.95) !important;
+  border-right: 6px solid #f43f5e !important;
+  color: #9f1239 !important;
+}
+
+.ant-message-error .anticon {
+  font-size: 22px !important;
+}
+
+/* WARNING - Amber */
+.ant-message-warning .ant-message-notice-content {
+  background: rgba(255, 251, 235, 0.95) !important;
+  border-right: 6px solid #f59e0b !important;
+  color: #92400e !important;
+}
+
+/* Sửa lỗi mã màu FFFBEB thiếu # của bạn */
+.ant-message-warning .ant-message-notice-content {
+  background: rgba(255, 251, 235, 0.9) !important;
+}
+
+/* Container chung của message */
+.ant-message-notice-content {
+  position: relative;
+  overflow: hidden;
+  /* Bắt buộc để thanh progress không tràn ra ngoài bo góc */
+  padding: 16px 28px 20px 28px !important;
+  /* Tăng padding bottom để chừa chỗ cho thanh */
+}
+
+/* Cấu trúc thanh Progress dùng Pseudo-element */
+.ant-message-notice-content::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  /* Độ dày của thanh progress */
+  width: 100%;
+  background: rgba(9, 72, 9, 0.1);
+  /* Nền mờ phía dưới thanh */
+  animation: messageProgress var(--duration, 3s) linear forwards;
+  transform-origin: left;
+}
+
+/* Animation chạy từ phải sang trái (thu lại) */
+@keyframes messageProgress {
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* Màu sắc riêng cho từng loại thanh Progress */
+
+/* Success - Xanh lục bảo */
+.ant-message-success .ant-message-notice-content::after {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+/* Error - Đỏ hồng */
+.ant-message-error .ant-message-notice-content::after {
+  background: linear-gradient(90deg, #f43f5e, #fb7185);
+}
+
+/* Warning - Vàng hổ phách */
+.ant-message-warning .ant-message-notice-content::after {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+/* Thêm vào .btn-submit-3d hoặc .bento-card */
+.btn-submit-3d,
+.bento-card {
+  position: relative;
+  overflow: hidden;
+}
+
+
+
+.btn-submit-3d:hover::after {
+  left: 120%;
+}
+
+
+
+.icon-box-3d {
+  position: relative;
+}
+
+.icon-box-3d::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  opacity: 0.4;
+  z-index: -1;
+}
+
+.stat-card {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+
+
+/* --- PREMIUM EMERALD JADE (XANH LÁ NGỌC) THEME --- */
+
+:root {
+  --jade-primary: #10b981;
+  /* Xanh lá ngọc chủ đạo */
+  --jade-dark: #059669;
+  /* Xanh lá đậm cho text/header */
+  --jade-light: #ecfdf5;
+  /* Nền xanh lá siêu nhạt */
+  --jade-glow: rgba(16, 185, 129, 0.3);
+}
+
+/* Tabs Styling */
+.premium-tabs-cyan .ant-tabs-nav-list {
+  gap: 12px;
+}
+
+.tab-label-3d-v2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 14px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  font-weight: 600;
+  color: #64748b;
+}
+
+.tab-icon-cyan {
+  transition: all 0.3s ease;
+}
+
+.ant-tabs-tab-active .tab-label-3d-v2 {
+  background: white;
+  transform: translateY(-4px) scale(1.03);
+  color: var(--jade-primary) !important;
+}
+
+.ant-tabs-tab-active .tab-icon-cyan {
+  color: var(--jade-primary) !important;
+}
+
+/* Table Wrapper with Jade Hint */
+.table-wrapper-cyan {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  padding: 15px;
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+/* Inner Table Jade Header */
+.inner-table-cyan .ant-table-thead>tr>th {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.25), rgba(118, 75, 162, 0.2)) !important;
+  border-bottom: 2px solid rgba(102, 126, 234, 0.3) !important;
+  border-radius: 12px 12px 0 0;
+  color: #4c1d95 !important;
+}
+
+/* Column Titles with Icon Jade */
+.column-title-cyan {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.column-title-cyan span {
+  color: var(--jade-primary);
+}
+
+/* Chips & Labels */
+.mfr-chip-cyan {
+  width: fit-content;
+  font-size: 10px;
+  background: #d1fae5;
+  padding: 2px 10px;
+  border-radius: 6px;
+  color: #047857;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.consumable-name-cyan {
+  color: #059669;
+  text-shadow: 0 0 8px var(--jade-glow);
+}
+
+/* Neon Tags & Badges - Jade version */
+.tag-3d-cyan-bold {
+  border: none;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  letter-spacing: 0.3px;
+}
+
+.date-badge-3d-cyan {
+  background: #ffffff;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 12px;
+  color: #064e3b;
+  width: fit-content;
+  font-weight: 500;
+}
+
+/* Thanh lọc bên trong Modal Tabs */
+.tab-filter-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+  padding: 0 5px;
+}
+
+.filter-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+  padding: 8px 15px;
+  border-radius: 12px;
+  width: 300px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filter-input-wrapper:focus-within {
+  width: 350px;
+  border-color: #10b981;
+  /* Chuyển sang xanh lá khi focus */
+  background: white;
+}
+
+.filter-input-wrapper span {
+  color: #10b981;
+  /* Icon màu xanh ngọc */
+  font-size: 16px;
+}
+
+.filter-input-wrapper input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 13px;
+  color: #1e293b;
+}
+
+.filter-input-wrapper input::placeholder {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+/* Tùy chỉnh Pagination của Ant Design cho đồng bộ */
+.inner-table-cyan .ant-pagination-item-active {
+  border-color: #10b981;
+  background: #10b981;
+}
+
+.inner-table-cyan .ant-pagination-item-active a {
+  color: white !important;
+}
+
+/* Pagination Jade */
+.inner-table-cyan .ant-pagination-item-active {
+  border-color: var(--jade-primary);
+  background: var(--jade-primary);
+}
+
+.inner-table-cyan .ant-pagination-item-active a {
+  color: white !important;
+}
+
+/* Revoke Button - Keep Red but with Jade Shadow on hover for contrast or clean look */
+.btn-3d-revoke-cyan:hover {
+  transform: scale(1.08) translateY(-2px);
+  background: #ef4444 !important;
+  color: white !important;
+}
+
+.bulk-action-bar {
+  background: #ecfeff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border: 1px dashed #0891b2;
+}
+
+.btn-bulk-transfer {
+  background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+  border: none;
+  font-weight: 600;
+}
+
+/* Nút phụ phong cách kính */
+.btn-glass-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.btn-glass-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--cyan-primary);
+  color: var(--cyan-primary);
+  transform: translateY(-2px);
+}
+
+
+
+
+
+/* Container bọc các ô lọc */
+.controls-group-3d {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+
+
+/* Làm đẹp ComboBox (Select) */
+.filter-select-3d.ant-select {
+  position: relative;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 26px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 520px;
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  height: 60px;
+}
+
+/* .filter-select-3d .ant-select-selector {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  height: 42px !important;
+  padding: 0 12px !important;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+} */
+/* Nút Bàn giao 3D Neon */
+.btn-primary-3d {
+  height: 42px !important;
+  /* Khớp với chiều cao Search & Select */
+  padding: 0 25px !important;
+  border-radius: 12px !important;
+  border: none !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 13px !important;
+
+  /* Màu sắc chủ đạo: Xanh Emerald/Mint */
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  color: white !important;
+
+  transition: all 0.2s ease-in-out !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: 0;
+}
+
+
+
+/* Hiệu ứng khi Click: Nút lún xuống như phím cơ thực thụ */
+.btn-primary-3d:active {
+  top: 3px !important;
+  /* Lún xuống gần bằng độ dày đáy */
+
+  transition: all 0.05s !important;
+}
+
+
+/* .banner-content::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+  top: -50%;
+  left: -50%;
+  animation: rotate-light 10s linear infinite;
+} */
+
+/* Sidebar Container */
+.asset-info-sidebar {
+  text-align: center;
+  border-right: 1px solid rgba(226, 232, 240, 0.8);
+  padding-right: 20px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* USER BODY V5 - ENHANCED */
+.user-body-v5 {
+  flex: 1;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 70px;
+  max-height: 120px;
+  position: relative;
+  z-index: 2;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.02) 50%,
+      rgba(255, 255, 255, 0.08) 100%);
+  border-radius: 12px;
+  margin: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.user-body-v5::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 100%);
+  animation: shimmerTop 3s ease-in-out infinite;
+}
+
+@keyframes shimmerTop {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateX(-100%);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateX(100%);
+  }
+}
+
+/* Hiệu ứng ánh sáng chạy ngầm */
+.asset-card-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Logout Section V5 - ENHANCED */
+.logout-section-v5 {
+  position: relative;
+  z-index: 3;
+  padding: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.03) 50%,
+      rgba(255, 255, 255, 0.12) 100%);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 8px;
+  border-radius: 12px;
+}
+
+.logout-section-v5::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(239, 68, 68, 0.4) 50%,
+      transparent 100%);
+  animation: logoutShimmer 3s ease-in-out infinite;
+  letter-spacing: 1.5px;
+  color: #94a3b8;
+  display: block;
+  margin-bottom: 15px;
+}
+
+/* Placeholder Icon Thiết bị */
+.asset-image-placeholder {
+  font-size: 48px;
+  color: #3b82f6;
+  background: #eff6ff;
+  width: 80px;
+  height: 80px;
+  line-height: 85px;
+  border-radius: 20px;
+  margin: 0 auto 15px;
+}
+
+.asset-model-name {
+  margin: 0 0 10px 0 !important;
+  color: #1e293b !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+
+/* Badge số hiệu thiết bị */
+.asset-tag-badge {
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+
+/* Chi tiết cấu hình phía dưới thẻ */
+.asset-detail-specs {
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.spec-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.status-tag-3d {
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.modal-floating-icon-container {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.icon-orbit {
+  width: 80px;
+  height: 80px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #3b82f6;
+  position: relative;
+}
+
+
+@keyframes orbit-rotate {
+  from {
+    transform: rotate(0deg) translateX(45px) rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg) translateX(45px) rotate(-360deg);
+  }
+}
+
+.selected-counter-3d {
+  background: #eef2ff;
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+  color: #3b82f6;
+}
+
+/* Excel Download Button - Professional Styling */
+.btn-excel-download {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 0 24px !important;
+  height: 44px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.btn-excel-download::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-excel-download:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+}
+
+.btn-excel-download:hover::before {
+  left: 100%;
+}
+
+.btn-excel-download:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+
+/* Excel Upload Button - Professional Styling */
+.btn-excel-upload {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 0 24px !important;
+  height: 44px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.btn-excel-upload::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-excel-upload:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+}
+
+.btn-excel-upload:hover::before {
+  left: 100%;
+}
+
+.btn-excel-upload:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+
+/* Employee Table - Professional Styling */
+.employee-table-styled {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.96)) !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+}
+
+.employee-table-styled .ant-table-thead>tr>th {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.85)) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  padding: 16px !important;
+  border-bottom: none !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.employee-table-styled .ant-table-tbody>tr {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.employee-table-styled .ant-table-tbody>tr>td {
+  padding: 14px 16px !important;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.6) !important;
+  font-size: 14px !important;
+}
+
+
+
+.employee-table-styled .ant-table-tbody>tr:last-child>td {
+  border-bottom: none !important;
+}
+
+.employee-table-styled .ant-checkbox-wrapper {
+  transform: scale(1.1);
+}
+
+.employee-table-styled .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+}
+
+.mode-switcher {
+  display: flex;
+  justify-content: center;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.mode-switcher button {
+  flex: 1;
+  border: none !important;
+  height: 36px;
+}
+
+/* Nút tải file mẫu */
+.btn-download-template:hover {
+  color: #1d7246 !important;
+  border-color: #1d7246 !important;
+  background-color: #f0fdf4 !important;
+}
+
+/* Nút Excel khi đã có dữ liệu */
+.btn-excel-active {
+  background-color: #1d7246 !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+.btn-excel-active:hover {
+  opacity: 0.9;
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+
+/* Mobile Devices (max-width: 768px) */
+@media (max-width: 768px) {
+  .bento-header-wrapper {
+    grid-template-columns: 1fr !important;
+    gap: 15px;
+  }
+
+  .glass-table-card-3d .ant-table,
+  .auditlog-table .ant-table,
+  .employee-table-styled .ant-table {
+    min-width: 600px;
+  }
+
+  .glass-table-card-3d,
+  .auditlog-card,
+  .employee-table-styled {
+    overflow-x: auto;
+    border-radius: 12px;
+  }
+
+  .inner-table-cyan .ant-table {
+    min-width: 500px;
+  }
+
+  .table-wrapper-cyan {
+    overflow-x: auto;
+    border-radius: 12px;
+  }
+
+  .ant-modal {
+    max-width: 95vw !important;
+    margin: 10px auto;
+  }
+
+  .ant-modal-content {
+    border-radius: 16px;
+  }
+
+  .modal-inner-3d {
+    padding: 20px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .btn-excel-download,
+  .btn-excel-upload {
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .mode-switcher {
+    width: 100%;
+  }
+
+  .mode-switcher button {
+    font-size: 12px;
+  }
+
+  .filter-input-wrapper {
+    width: 100%;
+  }
+
+  .filter-input-wrapper:focus-within {
+    width: 100%;
+  }
+
+  .bulk-action-bar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .selected-counter-3d {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Tablet Devices (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .bento-header-wrapper {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .glass-table-card-3d .ant-table,
+  .auditlog-table .ant-table {
+    min-width: 700px;
+  }
+
+  .glass-table-card-3d,
+  .auditlog-card {
+    border-radius: 16px;
+  }
+
+  .ant-modal {
+    max-width: 90vw;
+  }
+
+  .btn-excel-download,
+  .btn-excel-upload {
+    padding: 0 18px;
+  }
+}
+
+/* Small Mobile Devices (max-width: 480px) */
+@media (max-width: 480px) {
+
+  .glass-table-card-3d .ant-table-thead>tr>th,
+  .auditlog-table .ant-table-thead>tr>th,
+  .employee-table-styled .ant-table-thead>tr>th {
+    padding: 12px 8px !important;
+    font-size: 11px !important;
+  }
+
+  .glass-table-card-3d .ant-table-tbody>tr>td,
+  .auditlog-table .ant-table-tbody>tr>td,
+  .employee-table-styled .ant-table-tbody>tr>td {
+    padding: 10px 8px !important;
+    font-size: 11px !important;
+  }
+
+  .inner-table-cyan .ant-table-thead>tr>th {
+    padding: 10px 6px !important;
+    font-size: 10px !important;
+  }
+
+  .inner-table-cyan .ant-table-tbody>tr>td {
+    padding: 8px 6px !important;
+    font-size: 10px !important;
+  }
+
+  .column-title-cyan {
+    font-size: 10px;
+  }
+
+  .mfr-chip-cyan,
+  .date-badge-3d-cyan {
+    font-size: 9px;
+    padding: 2px 8px;
+  }
+
+  .model-name-3d-cyan {
+    font-size: 13px !important;
+  }
+
+  .serial-number-v2 {
+    font-size: 10px !important;
+  }
+
+  .sw-icon-cyan-glass {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .qty-capsule-cyan {
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+
+  .btn-excel-download,
+  .btn-excel-upload {
+    height: 36px;
+    font-size: 12px;
+    padding: 0 15px;
+  }
+
+  .tab-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Card thông tin kiểu Glassmorphism */
+.info-glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.info-glass-card .label {
+  display: block;
+  font-size: 9px;
+  color: #64748b;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.info-glass-card .value {
+  display: block;
+  font-size: 13px;
+  color: #e2e8f0;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hiệu ứng nút Close */
+.btn-close-3d {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease;
+}
+
+.btn-close-3d:hover {
+  background: rgba(239, 68, 68, 0.2) !important;
+  transform: rotate(90deg);
+}
+
+/* Nút Submit 3D nâng cao */
+.btn-3d-submit {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+  border: none !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.btn-3d-submit:hover {
+  transform: translateY(-2px);
+}
+
+/* Tăng hiệu ứng 3D cho khung Editor */
+.wangeditor-3d-wrapper {
+  border: 2px solid #e2e8f0 !important;
+  border-radius: 16px !important;
+  overflow: hidden;
+  background: #fff;
+
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.wangeditor-3d-wrapper:focus-within {
+  border-color: #3b82f6 !important;
+}
+
+/* Thanh Bar thông tin */
+.info-bar-3d {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.label-tiny {
+  font-size: 10px;
+  color: #94a3b8;
+  display: block;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+
+
+.modal-footer-3d {
+  padding: 16px 24px;
+  background: #f8fafc;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Layout Mobile */
+.label-dim {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 8px;
+}
+
+.info-row-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.specs-box {
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #475569;
+  margin-top: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+.icon-badge-3d {
+  width: 70px;
+  height: 70px;
+  background: #fff;
+  margin: 0 auto;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-mobile-primary {
+  height: 50px !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  background: #2563eb !important;
+}
+
+.btn-mobile-primary:active {
+  transform: translateY(2px);
+}
+
+/* Respect user's reduced motion preference: disable animations/transitions */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+    will-change: auto !important;
+  }
+}
+
+/* Remove remaining heavy effects but do NOT change banner or stat components */
+/* This targets animated backgrounds, card glows, row light-sweeps, and modal filters */
+.glass-page-container::before,
+.table-container::before,
+.table-container::after,
+.bento-card,
+.bento-card::before,
+.bento-card::after,
+.table-title,
+.table-title::before,
+.table-title::after,
+.table-title span::before,
+.factory-info-wrapper::before,
+.factory-location::before,
+.factory-separator::before,
+.factory-separator::after,
+.table-header::before,
+.table-header::after,
+.table-row,
+.table-row::before,
+.table-row::after,
+.table-row span::before,
+.table-cell,
+.modal-3d-supreme .ant-modal-mask,
+.modal-3d-supreme .ant-modal-wrap,
+.modal-inner-3d,
+.glass-table-card-3d,
+.glass-card-3d,
+.bento-header-wrapper,
+.table-header,
+.pulse-dot,
+.table-container,
+.search-engine-3d,
+.factory-info-wrapper {
+
+  transition: none !important;
+  animation-play-state: paused !important;
+  transform: none !important;
+}
+
+/* Keep banner and stat visuals untouched by explicitly re-enabling them */
+.banner-badge,
+.banner-title,
+.banner-subtitle,
+.stat-card,
+.stat-progress {
+  /* ensure their original styles remain active */
+  animation: initial !important;
+  transition: initial !important;
+  animation-play-state: initial !important;
+  transform: initial !important;
+}
+
+.asset-info-cell-3d {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.icon-wrapper-3d {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.icon-3d {
+  font-size: 20px;
+}
+
+.icon-3d.laptop { color: #1890ff; }
+.icon-3d.desktop { color: #52c41a; }
+.icon-3d.generic { color: #faad14; }
+
+
+/* ================================================
+   PERFORMANCE FIX: Modal & animation overrides
+   Thêm vào CUỐI file GlobalStyle.css
+   ================================================ */
+
+/* 1. Tắt hoàn toàn 3D transform trên modal */
+.modal-inner-3d {
+  transform-style: flat !important;
+  transform: none !important;
+  animation: modal-fade-in 0.2s ease-out !important;
+  will-change: opacity !important;
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 2. Tắt animation wrap (thứ gây delay trước khi modal hiện) */
+.modal-3d-supreme .ant-modal-wrap {
+  animation: none !important;
+}
+
+.modal-3d-supreme .ant-modal-mask {
+  animation: none !important;
+}
+
+/* 3. Tắt particle orbit trong modal (vòng xoay tốn CPU) */
+.particle,
+.particle.p1,
+.particle.p2 {
+  animation: none !important;
+  display: none !important;
+}
+
+/* 4. Tắt icon orbit animation */
+.icon-orbit {
+  animation: none !important;
+}
+
+
+
+/* 6. Table row — tắt animation slideIn (gây jank khi load data) */
+.table-row {
+  transform-style: flat !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* 7. Tắt shimmerTop chạy vô tận (đang repaint mỗi 3s) */
+.user-body-v5::before {
+  display: none !important;
+}
+
+
+
+/* 9. Fix ant-modal content — bỏ transform gây layout shift */
+.modal-3d-supreme .ant-modal-content {
+  transform: none !important;
+  border-radius: 45px !important;
+  overflow: hidden;
+}
+
+/* 10. Đảm bảo modal Ant Design không bị block bởi z-index */
+.modal-3d-supreme .ant-modal {
+  pointer-events: auto !important;
+}
+
+.modal-3d-supreme .ant-modal-wrap {
+  pointer-events: auto !important;
+}
+
+/* 11. Nút trong modal — bỏ transform 3D hover gây repaint */
+.btn-submit-3d,
+.btn-cancel-3d {
+  will-change: auto !important;
+  transform: none !important;
+}
+
+.btn-submit-3d:hover,
+.btn-cancel-3d:hover {
+  transform: none !important;
+}
+
+/* 12. Tắt toàn bộ will-change không cần thiết */
+* {
+  will-change: auto;
+}
+
+/* Chỉ dùng will-change cho thứ đang animate thực sự */
+.ant-modal,
+.ant-modal-mask {
+  will-change: opacity;
+}
+.page-fade-in {
+  animation: page-fade 0.2s ease-out;
+}
+
+@keyframes page-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.global-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.65); /* Màu nền mờ */
+  z-index: 9999; /* Luôn nằm trên cùng mọi component khác */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

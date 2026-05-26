@@ -1,0 +1,393 @@
+:root {
+  --primary-green: #10b981;
+  --neon-green: #34d399;
+  --dark-green: #064e3b;
+  --bg-light: #f8fafc;
+  --glass-bg: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(16, 185, 129, 0.12);
+  --input-bg: rgba(248, 250, 252, 0.8);
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+}
+
+/* --- TỔNG THỂ --- */
+.login-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    180deg,
+    rgba(102, 126, 234, 0.3),
+    rgba(104, 108, 232, 0.3),
+    rgba(106, 110, 230, 0.3),
+    rgba(108, 112, 228, 0.3),
+    rgba(110, 114, 226, 0.3),
+    rgba(112, 116, 224, 0.3),
+    rgba(114, 118, 222, 0.3),
+    rgba(116, 120, 220, 0.3),
+    rgba(118, 122, 218, 0.3),
+    rgba(120, 124, 216, 0.3),
+    rgba(122, 126, 214, 0.3),
+    rgba(124, 128, 212, 0.3),
+    rgba(118, 75, 162, 0.3),
+    rgba(120, 77, 160, 0.3),
+    rgba(122, 79, 158, 0.3),
+    rgba(124, 81, 156, 0.3),
+    rgba(126, 83, 154, 0.3),
+    rgba(128, 85, 152, 0.3),
+    rgba(130, 87, 150, 0.3),
+    rgba(132, 89, 148, 0.3),
+    rgba(134, 91, 146, 0.3),
+    rgba(136, 93, 144, 0.3),
+    rgba(138, 95, 142, 0.3),
+    rgba(240, 147, 251, 0.3),
+    rgba(241, 149, 249, 0.3),
+    rgba(242, 151, 247, 0.3),
+    rgba(244, 153, 245, 0.3),
+    rgba(246, 155, 243, 0.3),
+    rgba(248, 157, 241, 0.3),
+    rgba(250, 159, 239, 0.3),
+    rgba(252, 159, 237, 0.3),
+    rgba(254, 159, 235, 0.3),
+    rgba(245, 87, 108, 0.3),
+    rgba(247, 90, 110, 0.3),
+    rgba(249, 93, 112, 0.3),
+    rgba(251, 96, 114, 0.3),
+    rgba(253, 99, 116, 0.3),
+    rgba(255, 102, 118, 0.3),
+    rgba(99, 99, 241, 0.3),
+    rgba(101, 101, 243, 0.3),
+    rgba(103, 103, 245, 0.3),
+    rgba(105, 105, 247, 0.3),
+    rgba(107, 107, 249, 0.3),
+    rgba(109, 109, 251, 0.3),
+    rgba(111, 111, 253, 0.3),
+    rgba(113, 113, 255, 0.3),
+    rgba(79, 172, 254, 0.3),
+    rgba(81, 173, 254, 0.3),
+    rgba(83, 174, 254, 0.3),
+    rgba(85, 175, 254, 0.3),
+    rgba(87, 176, 254, 0.3),
+    rgba(89, 177, 254, 0.3),
+    rgba(91, 178, 254, 0.3),
+    rgba(93, 179, 254, 0.3),
+    rgba(95, 180, 254, 0.3),
+    rgba(102, 126, 234, 0.3)
+  );
+  background-size: 100% 400%;
+  animation: waveGradient 40s ease-in-out infinite;
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow: hidden;
+  position: relative;
+  perspective: 1200px;
+}
+
+@keyframes waveGradient {
+  0%, 100% { background-position: 50% 0%; }
+  50% { background-position: 50% 100%; }
+}
+
+/* --- HẠT NHÂN PHÁT SÁNG NỀN (GIỮ NGUYÊN CHUYỂN ĐỘNG) --- */
+.bg-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 0;
+  animation: float-pulse 15s infinite alternate ease-in-out;
+}
+
+.blob-1 {
+  width: 700px;
+  height: 700px;
+  background: rgba(16, 185, 129, 0.18);
+  top: -20%;
+  right: -10%;
+}
+
+.blob-2 {
+  width: 600px;
+  height: 600px;
+  background: rgba(56, 189, 248, 0.12);
+  bottom: -15%;
+  left: -10%;
+}
+
+@keyframes float-pulse {
+  to { transform: scale(1.1) translate(5%, 5%); opacity: 0.6; }
+}
+
+/* --- CARD ĐĂNG NHẬP (NÂNG CẤP ĐỘ SÂU) --- */
+.login-card-3d {
+  width: 420px;
+  position: relative;
+  border-radius: 44px;
+  padding: 2px; 
+  background: linear-gradient(135deg, var(--glass-border), transparent);
+  /* Shadow đa lớp chuyên nghiệp */
+  box-shadow: 
+    0 10px 30px -10px rgba(0, 0, 0, 0.05),
+    0 20px 50px -15px rgba(16, 185, 129, 0.1);
+  z-index: 1;
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.login-card-3d:hover {
+  /* Hiệu ứng nổi lên và nghiêng 3D cực nhẹ */
+  transform: translateY(-10px) rotateX(2deg);
+  box-shadow: 
+    0 40px 80px -20px rgba(16, 185, 129, 0.25),
+    0 15px 30px -10px rgba(0, 0, 0, 0.03);
+}
+
+/* Viền xoay Neon (Mượt và sáng hơn) */
+.login-card-3d::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 44px;
+  padding: 2px; 
+  background: conic-gradient(from 0deg, transparent, var(--primary-green), transparent, var(--primary-green));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotate-border 5s linear infinite;
+}
+
+@keyframes rotate-border {
+  to { transform: rotate(360deg); }
+}
+
+.login-content {
+  background: var(--glass-bg);
+  backdrop-filter: blur(30px) saturate(180%);
+  border-radius: 42px;
+  padding: 50px 45px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Tia sáng phản chiếu chạy qua card khi hover */
+.login-content::after {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(135deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: 0.8s;
+  pointer-events: none;
+}
+
+.login-card-3d:hover .login-content::after {
+  top: 100%;
+  left: 100%;
+}
+
+/* --- LOGO (ỔN ĐỊNH, KHÔNG PHÓNG TO) --- */
+.logo-wrapper-3d {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 30px;
+  background: #ffffff;
+  border-radius: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  transition: all 0.4s ease;
+}
+
+.login-card-3d:hover .logo-wrapper-3d {
+  box-shadow: 0 15px 35px rgba(16, 185, 129, 0.15);
+}
+
+.login-logo { width: 70%; object-fit: contain; }
+
+/* --- TEXT --- */
+.login-title {
+  color: var(--dark-green);
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.login-subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* --- INPUT --- */
+.input-group-3d {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.input-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary-green);
+  font-size: 18px;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.input-group-3d input, .factory-select-custom {
+  width: 100%;
+  padding: 16px 15px 16px 56px;
+  background: var(--input-bg) !important;
+  border: 1px solid rgba(0,0,0,0.03) !important;
+  border-radius: 20px;
+  color: var(--text-main) !important;
+  font-size: 15px;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input-group-3d input:focus {
+  background: #ffffff !important;
+  border-color: var(--primary-green) !important;
+  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.12);
+  padding-left: 60px; /* Đẩy nhẹ text để tạo hiệu ứng mượt */
+}
+
+.input-group-3d input:focus + .input-icon {
+  transform: translateY(-50%) scale(1.15) rotate(-5deg); /* Icon nảy nhẹ */
+  color: var(--dark-green);
+}
+
+/* --- NÚT ĐĂNG NHẬP --- */
+.login-btn-3d {
+  width: 100%;
+  padding: 18px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 22px;
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: 0 12px 25px rgba(6, 78, 59, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Tia sáng quét qua nút (Shimmer liên tục nhẹ) */
+.login-btn-3d::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.login-btn-3d:hover::before {
+  left: 100%;
+  transition: 0.6s;
+}
+
+.login-btn-3d:hover {
+  box-shadow: 0 15px 35px rgba(16, 185, 129, 0.35);
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+.login-footer {
+  margin-top: 40px;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Login Loading Overlay - Subtle Overlay */
+.login-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.loading-content {
+  text-align: center;
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.loading-spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.loading-spinner-wrapper .ant-spin {
+  color: #10b981;
+}
+
+.loading-spinner-wrapper .ant-spin-dot-item {
+  background-color: #10b981 !important;
+}
+
+.loading-title {
+  color: #1e293b;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.5px;
+}
+
+.loading-subtitle {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0;
+  font-weight: 400;
+}

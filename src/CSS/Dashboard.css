@@ -1,0 +1,478 @@
+/* --- TỔNG THỂ CONTAINER --- */
+.dashboard-container {
+    padding: 24px;
+    background:
+        radial-gradient(ellipse at 10% 10%, rgba(16,185,129,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 90%, rgba(59,130,246,0.04) 0%, transparent 50%),
+        #f8fafc;
+    min-height: 100vh;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+
+/* --- BANNER V2: HIỆU ỨNG 3D EMERALD & OCEAN --- */
+.dashboard-banner-v2 {
+    background: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #3b82f6 100%);
+    padding: 40px;
+    border-radius: 32px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 20px 50px rgba(6, 182, 212, 0.3),
+        inset 0 0 20px rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+
+
+.banner-left { position: relative; z-index: 1; }
+
+.banner-left .m-0.text-white {
+    font-size: 36px !important;
+    font-weight: 900 !important;
+    letter-spacing: -1px;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+
+/* Chip Neon 3D */
+.chip-neon {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    color: #ffffff;
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 800;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    margin-bottom: 12px;
+}
+
+/* --- STAT CARDS: CLEAN GLASS MORPHISM --- */
+.glass-stat-card {
+    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%) !important;
+    border-radius: 24px !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.glass-stat-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--card-accent, #06b6d4), var(--card-accent, #3b82f6));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.glass-stat-card:hover {
+    transform: translateY(-6px);
+}
+
+.glass-stat-card:hover::after {
+    opacity: 1;
+}
+
+/* Glow ring on hover */
+.glass-stat-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 24px;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--card-accent, #06b6d4), transparent, var(--card-accent, #3b82f6));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.glass-stat-card:hover::before {
+    opacity: 0.6;
+}
+
+.stat-icon-v2 {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(248,250,252,0.9));
+
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-stat-card:hover .stat-icon-v2:hover {
+    transform: scale(1.08) rotate(-3deg);
+}
+
+/* Bottom accent bar on stat cards */
+.stat-card-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: 0 0 24px 24px;
+    opacity: 0.7;
+    transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+.glass-stat-card:hover .stat-card-bar {
+    height: 4px;
+    opacity: 1;
+}
+
+/* --- BIỂU ĐỒ & LIST: GLASS BOX --- */
+.glass-card-chart, .glass-card-list {
+    background: #ffffff !important;
+    border-radius: 24px !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Card header styling */
+.glass-card-chart .ant-card-head,
+.glass-card-list .ant-card-head {
+    border-bottom: 1px solid rgba(226, 232, 240, 0.6) !important;
+    padding: 16px 24px !important;
+    min-height: unset !important;
+}
+
+.glass-card-chart .ant-card-head-title,
+.glass-card-list .ant-card-head-title {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #1e293b !important;
+    letter-spacing: 0.3px !important;
+}
+
+.glass-card-chart .ant-card-body,
+.glass-card-list .ant-card-body {
+    padding: 20px 24px !important;
+}
+/* 1. Sửa lỗi lệch tâm: Bao bọc biểu đồ vào một div có chiều cao cố định */
+/* Trong JSX, bạn hãy bọc ResponsiveContainer và donut-center vào div này */
+.donut-chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 300px; /* Chiều cao phải khớp với ResponsiveContainer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 2. Căn chỉnh lại Donut Center tuyệt đối chính xác */
+.donut-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Dùng translate để căn tâm chính xác 100% */
+    transform: translate(-50%, -50%); 
+    
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.98) 50%, rgba(241, 245, 249, 0.95) 100%);
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    /* QUAN TRỌNG: pointer-events: none giúp Tooltip xuyên qua khối này khi hover */
+    pointer-events: none;
+    z-index: 2;
+}
+
+.center-val {
+    font-size: 32px; /* Tăng size cho rõ ràng */
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, #1e293b, #334155);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.center-lbl {
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+}
+
+/* 3. Custom Tooltip Recharts */
+.recharts-tooltip-wrapper {
+    z-index: 10 !important;
+}
+
+.recharts-default-tooltip {
+    border: none !important;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    padding: 12px 16px !important;
+    z-index: 100 !important;
+}
+
+.recharts-tooltip-label {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #1e293b !important;
+    margin-bottom: 4px !important;
+}
+
+.recharts-tooltip-item {
+    font-size: 13px !important;
+    color: #475569 !important;
+}
+
+.recharts-tooltip-item-name {
+    font-weight: 600 !important;
+}
+
+.recharts-tooltip-item-value {
+    font-weight: 700 !important;
+    color: #1e293b !important;
+}
+
+/* List Items Luxury */
+/* Đảm bảo các Card cùng hàng có chiều cao bằng nhau */
+.h-full-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.h-full-card .ant-card-body {
+    flex: 1;
+    padding: 16px !important;
+}
+
+/* Tối ưu danh sách để không bị quá dài hoặc quá ngắn */
+.luxury-list {
+    max-height: 400px; /* Độ cao cố định để 3 cột đều nhau */
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+/* Custom scrollbar siêu mảnh */
+.scroll-styled::-webkit-scrollbar {
+    width: 4px;
+}
+.scroll-styled::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+}
+
+/* Cấu trúc Item hiện đại */
+.luxury-list-item {
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    padding: 14px 16px !important;
+    border-radius: 16px;
+    margin-bottom: 10px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.luxury-list-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #10b981, #3b82f6);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.luxury-list-item:hover {
+    transform: translateY(-2px);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.luxury-list-item:hover::before {
+    opacity: 1;
+}
+
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.item-sub-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+}
+
+.uppercase-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.item-val-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: #0891b2;
+    background: linear-gradient(135deg, #ecfeff, #cffafe);
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+/* Progress bar custom */
+.progress-bg {
+    height: 6px;
+    background: #f1f5f9;
+    border-radius: 100px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 100px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Rank cho bảng phân loại */
+.item-rank-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-left: 4px !important;
+}
+
+.item-rank {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: #64748b;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.item-rank-wrapper:nth-child(1) .item-rank {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    color: #92400e;
+}
+
+.item-rank-wrapper:nth-child(2) .item-rank {
+    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+    color: #475569;
+}
+
+.item-rank-wrapper:nth-child(3) .item-rank {
+    background: linear-gradient(135deg, #fed7aa, #fdba74);
+    color: #9a3412;
+}
+
+/* --- BUTTON & SYNC BOX --- */
+.sync-box {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.btn-export-jade {
+    background: #ffffff !important;
+    color: #059669 !important;
+    border: none !important;
+    font-weight: 700 !important;
+    border-radius: 14px !important;
+}
+
+.btn-export-jade:hover {
+    transform: scale(1.05);
+    background: #ecfdf5 !important;
+}
+
+/* Pulse Indicator Live */
+.pulse-indicator {
+    width: 12px;
+    height: 12px;
+    background: #4ade80;
+    border-radius: 50%;
+    animation: pulse-ring 2s infinite;
+}
+/* Global tooltip fix for asset status */
+@keyframes bannerPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+@keyframes cardFloat {
+  0%, 100% { transform: translateY(0px) rotateX(0deg); }
+  50% { transform: translateY(-10px) rotateX(2deg); }
+}
+
+.model-name-3d-cyan {
+  font-weight: 800 !important;
+  font-size: 15px !important;
+  background: linear-gradient(135deg, #10b981 0%, #06b6d4 30%, #3b82f6 60%, #8b5cf6 100%);
+  -webkit-background-clip: text !important;
+  background-clip: text;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.15), 0 0 25px rgba(16, 185, 129, 0.4), 0 0 35px rgba(59, 130, 246, 0.2) !important;
+  transform-style: preserve-3d !important;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  z-index: 2 !important;
+  letter-spacing: 0.5px;
+}
+
+.luxury-list-item:hover .model-name-3d-cyan {
+  transform: translateY(-3px) scale(1.08) rotateX(15deg) !important;
+  text-shadow: 0 8px 16px rgba(0, 0, 0, 0.25), 0 0 40px rgba(16, 185, 129, 0.6), 0 0 60px rgba(59, 130, 246, 0.4), 0 0 80px rgba(139, 92, 246, 0.3) !important;
+  background: linear-gradient(135deg, #10b981 0%, #06b6d4 25%, #3b82f6 50%, #8b5cf6 75%, #ec4899 100%) !important;
+}
+
+.ant-progress {
+  transform-style: preserve-3d !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.ant-progress-bg {
+  background: linear-gradient(90deg, #10b981 0%, #06b6d4 30%, #3b82f6 60%, #8b5cf6 100%) !important;
+  border-radius: 12px !important;
+  transform: translateZ(15px) scaleY(1.1) !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.luxury-list-item:hover .ant-progress {
+  transform: translateY(-6px) scale(1.03) rotateX(8deg) !important;
+}
